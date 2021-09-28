@@ -27,5 +27,3 @@ find / -type f -executable -perm -4000 -ls 2>/dev/null | sort -k 5
 echo "12 biggest files"
 echo "================"
 find / -type f -exec ls -lah {} + -ls 2>/dev/null | grep "^-"|sort -hr -k5 | head -n 12| awk '{print $5, $NF;}'
-# sudo du -a /var | sort -n -r | head -n 12
-# find / -type f -executable du -h {} + | sort -hr | head -12
