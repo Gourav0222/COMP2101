@@ -127,18 +127,18 @@ EOF
 # Determining number of interfaces
 noInterface=$( ip a | awk '/: e/{print $2}' | wc -l )
 # 
-for (( count=1; count <= $noInterface; count++ )); do
-  interface=$(ip a | awk '/: e/ {print $2}' | awk "NR==$count")
-  echo "Reporting on interface: $interface"
-  echo "Getting IPV4 address and name for interface $interface"
+for (( loopCount=1; loopCount <= $noInterface; loopCount++ )); do
+  interface=$(ip a | awk '/: e/ {print $2}' | awk "NR==$loopCount")
+  echo "Reporting on all interfaces ($noInterface): -"
+
   ipv4_address=$(ip a s $interface|awk -F '[/ ]+' '/inet /{print $3}')
   ipv4_hostname=$(getent hosts $ipv4_address | awk '{print $2}')
-  echo "Getting IPV4 network block info and name for interface $interface"
+
   network_address=$(ip route list dev $interface scope link|cut -d ' ' -f 1)
   network_number=$(cut -d / -f 1 <<<"$network_address")
-  network_name=$(getent networks $network_number|awk '{print $1}')
+  network_name=$(getent networks $network_number |awk '{print $1}')
   cat <<EOF
-  Interface $interface:
+  Interface => $interface
   ===============
   Address         : $ipv4_address
   Name            : $ipv4_hostname
