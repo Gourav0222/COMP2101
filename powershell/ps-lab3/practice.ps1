@@ -1,0 +1,1 @@
+get-process | Where-Object { $_.cpu -gt 20 -and $_.starttime -gt (get-date).addhours(-0.25) }
